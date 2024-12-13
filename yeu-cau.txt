@@ -1,0 +1,16 @@
+Tạo và Quản Lý Lịch Hẹn
+Tạo cuộc hẹn: Cho phép người dùng tạo cuộc hẹn với thông tin cơ bản như tên, mô tả, và thời gian.
+Chỉnh sửa và hủy cuộc hẹn: Người dùng có thể thay đổi hoặc hủy cuộc hẹn đã tạo.
+2. Chọn Khung Giờ Linh Hoạt
+Khung giờ có sẵn: Cho phép người dùng chọn từ những thời gian trống đã có trong lịch của họ.
+Đề xuất thời gian: Ứng dụng tự động đề xuất thời gian trống cho đối tác.
+3. Tích Hợp với Google Calendar
+Đồng bộ hóa với Google Calendar: Cho phép người dùng đồng bộ hóa lịch của họ với Google Calendar để kiểm tra thời gian trống và tránh xung đột lịch.
+4. Gửi Liên Kết Đặt Lịch
+Gửi liên kết lịch cho đối tác: Người dùng có thể gửi liên kết cho người khác để họ chọn thời gian thích hợp mà không cần tài khoản.
+5. Thông Báo Nhắc Nhở
+Nhắc nhở qua email: Gửi thông báo nhắc nhở trước khi cuộc hẹn diễn ra, giúp người tham gia không quên cuộc hẹn.
+6. Quản Lý Người Dùng
+Đăng ký và đăng nhập: Cho phép người dùng tạo tài khoản và đăng nhập vào hệ thống để lưu trữ lịch sử cuộc hẹn.
+7. Tạo Lịch Sử Cuộc Hẹn
+Lịch sử cuộc hẹn: Người dùng có thể xem lịch sử các cuộc hẹn đã tạo và các cuộc hẹn trong tương lai.

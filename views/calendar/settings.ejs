@@ -1,0 +1,73 @@
+<%- include('../partials/header') %>
+
+<div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+    <div class="px-4 py-6 sm:px-0">
+        <div class="mb-6">
+            <h1 class="text-2xl font-semibold text-gray-900">Cài đặt Google Calendar</h1>
+        </div>
+
+        <% if (error) { %>
+        <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+            <%= error %>
+        </div>
+        <% } %>
+
+        <% if (success) { %>
+        <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
+            <% if (success === 'connected') { %>
+                Google Calendar đã được kết nối thành công!
+            <% } else if (success === 'disconnected') { %>
+                Đã ngắt kết nối Google Calendar.
+            <% } %>
+        </div>
+        <% } %>
+
+        <div class="bg-white shadow rounded-lg p-6">
+            <div class="space-y-6">
+                <div>
+                    <h3 class="text-lg font-medium text-gray-900">Trạng thái kết nối</h3>
+                    <div class="mt-2 flex items-center">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium
+                            <%= isConnected ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %>">
+                            <% if (isConnected) { %>
+                                <i class="fas fa-check-circle mr-2"></i> Đã kết nối
+                            <% } else { %>
+                                <i class="fas fa-times-circle mr-2"></i> Chưa kết nối
+                            <% } %>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="border-t border-gray-200 pt-6">
+                    <% if (!isConnected) { %>
+                        <a href="/calendar/connect"
+                           class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700">
+                            <i class="fab fa-google mr-2"></i>
+                            Kết nối Google Calendar
+                        </a>
+                    <% } else { %>
+                        <form action="/calendar/disconnect" method="POST" class="inline">
+                            <button type="submit"
+                                    class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                                <i class="fas fa-unlink mr-2"></i>
+                                Ngắt kết nối
+                            </button>
+                        </form>
+                    <% } %>
+                </div>
+
+                <div class="border-t border-gray-200 pt-6">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">Lưu ý</h3>
+                    <ul class="list-disc pl-5 text-sm text-gray-600 space-y-2">
+                        <li>Khi kết nối với Google Calendar, các sự kiện sẽ được đồng bộ tự động.</li>
+                        <li>Bạn có thể xem lịch hẹn trên ứng dụng Google Calendar.</li>
+                        <li>Khách mời sẽ nhận được email mời từ Google Calendar.</li>
+                        <li>Để ngắt kết nối, nhấn vào nút "Ngắt kết nối" ở trên.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %> 

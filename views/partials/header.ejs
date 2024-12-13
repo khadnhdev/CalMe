@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ thống quản lý lịch hẹn</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100">
+    <nav class="bg-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <a href="/" class="text-white font-bold text-xl">iCal</a>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-4">
+                            <% if (user) { %>
+                                <a href="/appointments" 
+                                   class="<%= path === '/appointments' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' %> px-3 py-2 rounded-md text-sm font-medium">
+                                    Lịch hẹn
+                                </a>
+                                <a href="/booking-links"
+                                   class="<%= path === '/booking-links' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' %> px-3 py-2 rounded-md text-sm font-medium">
+                                    Liên kết đặt lịch
+                                </a>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <% if (typeof user !== 'undefined') { %>
+                        <a href="/auth/logout" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
+                            Đăng xuất
+                        </a>
+                    <% } else { %>
+                        <a href="/auth/google" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700">
+                            <i class="fab fa-google mr-2"></i>
+                            Đăng nhập với Google
+                        </a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </nav>
+</body>
+</html> 

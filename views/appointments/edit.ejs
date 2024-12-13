@@ -1,0 +1,125 @@
+<%- include('../partials/header') %>
+
+<div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+    <div class="px-4 py-6 sm:px-0">
+        <div class="mb-6 flex items-center">
+            <a href="/appointments/<%= appointment.id %>" class="text-indigo-600 hover:text-indigo-900 mr-4">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <h1 class="text-2xl font-semibold text-gray-900">Chỉnh sửa lịch hẹn</h1>
+        </div>
+
+        <% if (error) { %>
+        <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+            <% if (error === 'update_failed') { %>
+                Không thể cập nhật lịch hẹn. Vui lòng thử lại.
+            <% } %>
+        </div>
+        <% } %>
+
+        <div class="bg-white shadow rounded-lg p-6">
+            <form action="/appointments/<%= appointment.id %>/edit" method="POST" class="space-y-6">
+                <div>
+                    <label for="title" class="block text-sm font-medium text-gray-700">
+                        Tiêu đề <span class="text-red-500">*</span>
+                    </label>
+                    <div class="mt-1">
+                        <input type="text" name="title" id="title" required
+                            value="<%= appointment.title %>"
+                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="description" class="block text-sm font-medium text-gray-700">
+                        Mô tả
+                    </label>
+                    <div class="mt-1">
+                        <textarea name="description" id="description" rows="3"
+                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"><%= appointment.description %></textarea>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                    <div>
+                        <label for="start_time" class="block text-sm font-medium text-gray-700">
+                            Thời gian bắt đầu <span class="text-red-500">*</span>
+                        </label>
+                        <div class="mt-1">
+                            <input type="datetime-local" name="start_time" id="start_time" required
+                                value="<%= appointment.start_time %>"
+                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="end_time" class="block text-sm font-medium text-gray-700">
+                            Thời gian kết thúc <span class="text-red-500">*</span>
+                        </label>
+                        <div class="mt-1">
+                            <input type="datetime-local" name="end_time" id="end_time" required
+                                value="<%= appointment.end_time %>"
+                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="guest_email" class="block text-sm font-medium text-gray-700">
+                        Email khách mời
+                    </label>
+                    <div class="mt-1">
+                        <input type="email" name="guest_email" id="guest_email"
+                            value="<%= appointment.guest_email %>"
+                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    </div>
+                    <p class="mt-1 text-sm text-gray-500">
+                        Khách mời sẽ nhận được email thông báo khi lịch hẹn được cập nhật
+                    </p>
+                </div>
+
+                <div class="flex justify-end space-x-3">
+                    <a href="/appointments/<%= appointment.id %>"
+                        class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                        Hủy
+                    </a>
+                    <button type="submit"
+                        class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700">
+                        Lưu thay đổi
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <% if (appointment.google_event_id) { %>
+        <div class="mt-6 bg-blue-50 border-l-4 border-blue-400 p-4">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <i class="fab fa-google text-blue-400"></i>
+                </div>
+                <div class="ml-3">
+                    <p class="text-sm text-blue-700">
+                        Lịch hẹn này đã được đồng bộ với Google Calendar. 
+                        Các thay đổi sẽ được cập nhật tự động.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <% } %>
+    </div>
+</div>
+
+<script>
+// Kiểm tra thời gian hợp lệ khi submit form
+document.querySelector('form').addEventListener('submit', function(e) {
+    const startTime = new Date(document.getElementById('start_time').value);
+    const endTime = new Date(document.getElementById('end_time').value);
+    
+    if (endTime <= startTime) {
+        e.preventDefault();
+        alert('Thời gian kết thúc phải sau thời gian bắt đầu');
+    }
+});
+</script>
+
+<%- include('../partials/footer') %> 

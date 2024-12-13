@@ -1,0 +1,175 @@
+<%- include('../partials/header') %>
+
+<div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+    <div class="px-4 py-6 sm:px-0">
+        <div class="mb-6 flex justify-between items-center">
+            <div class="flex items-center">
+                <a href="/appointments" class="text-indigo-600 hover:text-indigo-900 mr-4">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+                <h1 class="text-2xl font-semibold text-gray-900">Chi tiết lịch hẹn</h1>
+            </div>
+            <div class="flex space-x-3">
+                <a href="/appointments/<%= appointment.id %>/edit"
+                   class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                    <i class="fas fa-edit mr-2"></i>
+                    Chỉnh sửa
+                </a>
+                <form action="/appointments/<%= appointment.id %>/delete" method="POST" class="inline"
+                      onsubmit="return confirm('Bạn có chắc chắn muốn xóa lịch hẹn này?');">
+                    <button type="submit"
+                            class="inline-flex items-center px-4 py-2 border border-red-300 rounded-md shadow-sm text-sm font-medium text-red-700 bg-white hover:bg-red-50">
+                        <i class="fas fa-trash-alt mr-2"></i>
+                        Xóa
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <% if (success) { %>
+        <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
+            <% if (success === 'status_updated') { %>
+                Cập nhật trạng thái thành công!
+            <% } %>
+        </div>
+        <% } %>
+
+        <% if (error) { %>
+        <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+            <% if (error === 'update_failed') { %>
+                Không thể cập nhật trạng thái.
+            <% } else if (error === 'invalid_status') { %>
+                Trạng thái không hợp lệ.
+            <% } else if (error === 'delete_failed') { %>
+                Không thể xóa lịch hẹn.
+            <% } %>
+        </div>
+        <% } %>
+
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+            <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
+                <div>
+                    <h3 class="text-lg leading-6 font-medium text-gray-900">
+                        <%= appointment.title %>
+                    </h3>
+                    <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                        Được tạo bởi <%= appointment.creator_name %>
+                    </p>
+                </div>
+                <div>
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium
+                        <%= getStatusBadgeClass(appointment.status) %>">
+                        <%= getStatusText(appointment.status) %>
+                    </span>
+                </div>
+            </div>
+            <div class="border-t border-gray-200">
+                <dl>
+                    <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-500">
+                            Thời gian bắt đầu
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            <%= formatDate(appointment.start_time) %>
+                        </dd>
+                    </div>
+                    <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-500">
+                            Thời gian kết thúc
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            <%= formatDate(appointment.end_time) %>
+                        </dd>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-500">
+                            Khách mời
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            <%= appointment.guest_email || 'Không có khách mời' %>
+                        </dd>
+                    </div>
+                    <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-500">
+                            Mô tả
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            <%= appointment.description || 'Không có mô tả' %>
+                        </dd>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-500">
+                            Google Calendar
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            <%= appointment.google_event_id ? 'Đã đồng bộ' : 'Chưa đồng bộ' %>
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+
+            <!-- Status Update Form -->
+            <div class="px-4 py-5 bg-gray-50 sm:px-6">
+                <form action="/appointments/<%= appointment.id %>/status" method="POST" class="flex items-center space-x-4">
+                    <select name="status" 
+                            class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                        <option value="pending" <%= appointment.status === 'pending' ? 'selected' : '' %>>
+                            Đang chờ
+                        </option>
+                        <option value="confirmed" <%= appointment.status === 'confirmed' ? 'selected' : '' %>>
+                            Đã xác nhận
+                        </option>
+                        <option value="cancelled" <%= appointment.status === 'cancelled' ? 'selected' : '' %>>
+                            Đã hủy
+                        </option>
+                    </select>
+                    <button type="submit"
+                            class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700">
+                        Cập nhật trạng thái
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function getStatusBadgeClass(status) {
+    switch(status) {
+        case 'pending':
+            return 'bg-yellow-100 text-yellow-800';
+        case 'confirmed':
+            return 'bg-green-100 text-green-800';
+        case 'cancelled':
+            return 'bg-red-100 text-red-800';
+        default:
+            return 'bg-gray-100 text-gray-800';
+    }
+}
+
+function getStatusText(status) {
+    switch(status) {
+        case 'pending':
+            return 'Đang chờ';
+        case 'confirmed':
+            return 'Đã xác nhận';
+        case 'cancelled':
+            return 'Đã hủy';
+        default:
+            return status;
+    }
+}
+
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat('vi-VN', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
+    }).format(date);
+}
+</script>
+
+<%- include('../partials/footer') %> 

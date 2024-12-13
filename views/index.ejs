@@ -1,0 +1,81 @@
+<%- include('partials/header') %>
+
+<div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <div class="text-center">
+        <h1 class="text-4xl font-extrabold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
+            Quản lý lịch hẹn dễ dàng
+        </h1>
+        <p class="mt-5 max-w-xl mx-auto text-xl text-gray-500">
+            Tạo và quản lý lịch hẹn một cách chuyên nghiệp. Cho phép khách đặt lịch trực tiếp thông qua liên kết.
+        </p>
+        <div class="mt-8">
+            <% if (typeof user === 'undefined') { %>
+                <a href="/auth/google" 
+                   class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700">
+                    <i class="fab fa-google mr-2"></i>
+                    Bắt đầu với Google
+                </a>
+            <% } else { %>
+                <a href="/appointments" 
+                   class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700">
+                    <i class="fas fa-calendar-alt mr-2"></i>
+                    Xem lịch hẹn
+                </a>
+            <% } %>
+        </div>
+    </div>
+
+    <div class="mt-20">
+        <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            <div class="pt-6">
+                <div class="flow-root bg-white rounded-lg px-6 pb-8">
+                    <div class="-mt-6">
+                        <div>
+                            <span class="inline-flex items-center justify-center p-3 bg-indigo-500 rounded-md shadow-lg">
+                                <i class="fas fa-calendar-plus text-white text-2xl"></i>
+                            </span>
+                        </div>
+                        <h3 class="mt-8 text-lg font-medium text-gray-900 tracking-tight">Tạo lịch hẹn</h3>
+                        <p class="mt-5 text-base text-gray-500">
+                            Dễ dàng tạo và quản lý các cuộc hẹn với giao diện thân thiện.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-6">
+                <div class="flow-root bg-white rounded-lg px-6 pb-8">
+                    <div class="-mt-6">
+                        <div>
+                            <span class="inline-flex items-center justify-center p-3 bg-indigo-500 rounded-md shadow-lg">
+                                <i class="fas fa-link text-white text-2xl"></i>
+                            </span>
+                        </div>
+                        <h3 class="mt-8 text-lg font-medium text-gray-900 tracking-tight">Liên kết đặt lịch</h3>
+                        <p class="mt-5 text-base text-gray-500">
+                            Tạo liên kết cho phép khách chủ động đặt lịch với bạn.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-6">
+                <div class="flow-root bg-white rounded-lg px-6 pb-8">
+                    <div class="-mt-6">
+                        <div>
+                            <span class="inline-flex items-center justify-center p-3 bg-indigo-500 rounded-md shadow-lg">
+                                <i class="fas fa-bell text-white text-2xl"></i>
+                            </span>
+                        </div>
+                        <h3 class="mt-8 text-lg font-medium text-gray-900 tracking-tight">Thông báo tự động</h3>
+                        <p class="mt-5 text-base text-gray-500">
+                            Tự động gửi email thông báo và nhắc nhở lịch hẹn.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %> 
