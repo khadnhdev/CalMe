@@ -1,8 +1,5 @@
 # CalMe - Ứng Dụng Đặt Lịch Thông Minh
 
-<div align="center">
-  <img src="public/images/logo.png" alt="CalMe Logo" width="200">
-</div>
 
 ## Giới Thiệu
 
