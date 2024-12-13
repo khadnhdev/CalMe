@@ -1,9 +1,37 @@
-    <footer class="bg-white mt-auto">
-        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-            <p class="text-center text-gray-500 text-sm">
-                &copy; <%= new Date().getFullYear() %> Calendar App. All rights reserved.
-            </p>
-        </div>
-    </footer>
+</main>
+
+<!-- Footer -->
+<footer class="bg-white border-t border-gray-200 mt-auto">
+  <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col items-center justify-between space-y-4 sm:flex-row sm:space-y-0">
+      <!-- Logo và Copyright -->
+      <div class="flex items-center space-x-2">
+        <span class="text-xl font-bold bg-gradient-to-r from-indigo-600 via-purple-500 to-pink-500 text-transparent bg-clip-text">
+          iCal
+        </span>
+        <span class="text-sm text-gray-500">
+          © <%= new Date().getFullYear() %> Bản quyền thuộc về iCal
+        </span>
+      </div>
+
+      <!-- Links -->
+      <div class="flex space-x-6">
+        <a href="/about" class="text-sm text-gray-500 hover:text-gray-900">
+          Giới thiệu
+        </a>
+        <a href="/privacy" class="text-sm text-gray-500 hover:text-gray-900">
+          Chính sách riêng tư
+        </a>
+        <a href="/terms" class="text-sm text-gray-500 hover:text-gray-900">
+          Điều khoản sử dụng
+        </a>
+        <a href="/contact" class="text-sm text-gray-500 hover:text-gray-900">
+          Liên hệ
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
 </body>
 </html> 

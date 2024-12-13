@@ -7,8 +7,8 @@ const path = require('path');
 const fs = require('fs');
 const db = require('./config/database');
 const errorHandler = require('./middleware/errorHandler');
-const { formatDateTime } = require('./utils/dateUtils');
-const { getStatusClass, getStatusText } = require('./utils/appointmentUtils');
+const { formatDateTime, formatDate, formatTime } = require('./utils/dateUtils');
+const { getStatusClass, getStatusBadgeClass, getStatusText } = require('./utils/appointmentUtils');
 
 // Tạo thư mục db nếu chưa tồn tại
 const dbDir = path.join(__dirname, 'db');
@@ -85,7 +85,10 @@ app.use((req, res, next) => {
 
 // Đăng ký helper functions cho tất cả views
 app.locals.formatDateTime = formatDateTime;
+app.locals.formatDate = formatDate;
+app.locals.formatTime = formatTime;
 app.locals.getStatusClass = getStatusClass;
+app.locals.getStatusBadgeClass = getStatusBadgeClass;
 app.locals.getStatusText = getStatusText;
 
 const PORT = process.env.PORT || 3000;
