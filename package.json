@@ -1,7 +1,7 @@
 {
-  "name": "appointment-scheduler",
+  "name": "calme",
   "version": "1.0.0",
-  "description": "Hệ thống quản lý lịch hẹn",
+  "description": "CalMe - Ứng dụng đặt lịch thông minh",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",

@@ -624,4 +624,69 @@ router.post('/book/:slug', bookingValidation, async (req, res) => {
   }
 });
 
+// Trang tạo lịch hẹn mới
+router.get('/create', isAuthenticated, (req, res) => {
+  res.render('appointments/create', {
+    error: req.query.error
+  });
+});
+
+// Xử lý tạo lịch hẹn mới
+router.post('/create', isAuthenticated, async (req, res) => {
+  const { title, description, start_time, end_time, guest_name, guest_email } = req.body;
+
+  try {
+    // Validate thời gian
+    const startTime = new Date(start_time);
+    const endTime = new Date(end_time);
+    
+    if (endTime <= startTime) {
+      return res.redirect('/appointments/create?error=invalid_time');
+    }
+
+    // Tạo lịch hẹn mới
+    const result = await new Promise((resolve, reject) => {
+      db.run(
+        `INSERT INTO appointments (
+          user_id, title, description, start_time, end_time, 
+          guest_name, guest_email, status
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, 'pending')`,
+        [
+          req.user.id,
+          title,
+          description,
+          startTime.toISOString(),
+          endTime.toISOString(),
+          guest_name,
+          guest_email
+        ],
+        function(err) {
+          if (err) reject(err);
+          resolve(this.lastID);
+        }
+      );
+    });
+
+    // Thêm vào Google Calendar nếu đã kết nối
+    if (req.user.google_token) {
+      try {
+        await googleCalendar.addEvent(req.user.id, {
+          title,
+          description,
+          start_time: startTime,
+          end_time: endTime,
+          guest_email
+        });
+      } catch (error) {
+        console.error('Lỗi khi thêm vào Google Calendar:', error);
+      }
+    }
+
+    res.redirect(`/appointments/${result}?success=created`);
+  } catch (error) {
+    console.error('Lỗi khi tạo lịch hẹn:', error);
+    res.redirect('/appointments/create?error=create_failed');
+  }
+});
+
 module.exports = router; 
