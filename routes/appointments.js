@@ -6,6 +6,8 @@ const googleCalendar = require('../services/googleCalendar');
 const emailService = require('../services/emailService');
 const { bookingValidation } = require('../middleware/validation');
 const { generateSlug } = require('../utils/stringUtils');
+const { formatDateTime } = require('../utils/dateUtils');
+const { getStatusClass, getStatusText } = require('../utils/appointmentUtils');
 
 // Danh sách lịch hẹn
 router.get('/', isAuthenticated, async (req, res) => {
@@ -24,14 +26,20 @@ router.get('/', isAuthenticated, async (req, res) => {
     res.render('appointments/list', { 
       appointments,
       error: null,
-      success: req.query.success
+      success: req.query.success,
+      formatDateTime,
+      getStatusClass,
+      getStatusText
     });
   } catch (error) {
     console.error('Lỗi khi lấy danh sách lịch hẹn:', error);
     res.render('appointments/list', { 
       appointments: [],
       error: 'Không thể tải danh sách lịch hẹn',
-      success: null
+      success: null,
+      formatDateTime,
+      getStatusClass,
+      getStatusText
     });
   }
 });
@@ -69,15 +77,6 @@ router.get('/events', isAuthenticated, async (req, res) => {
     res.status(500).json({ error: 'Không thể tải sự kiện' });
   }
 });
-
-function getStatusClass(status) {
-  switch (status) {
-    case 'pending': return 'bg-yellow-200 border-yellow-600';
-    case 'confirmed': return 'bg-green-200 border-green-600';
-    case 'cancelled': return 'bg-red-200 border-red-600';
-    default: return 'bg-gray-200 border-gray-600';
-  }
-}
 
 // Chi tiết lịch hẹn
 router.get('/:id', isAuthenticated, async (req, res) => {
